@@ -3,10 +3,9 @@ package org.akros.services;
 import com.opencsv.bean.CsvToBean;
 import com.opencsv.bean.CsvToBeanBuilder;
 import com.opencsv.bean.HeaderColumnNameMappingStrategy;
-import org.akros.enums.ENMEAMode;
 import org.akros.model.SATObject;
 import org.akros.model.Sky;
-import org.akros.model.Tpv;
+import org.akros.model.TPVObject;
 import org.akros.payload.OtlsGpsCsvFileObjectRepresentation;
 
 import java.io.*;
@@ -46,11 +45,11 @@ public class ReadCsvFile {
         }
     }
 
-    public List<Tpv> transformCsvFileRepresenationToTpvObjekt() throws IOException {
+    public List<TPVObject> transformCsvFileRepresenationToTpvObjekt() throws IOException {
         InputStream inputStream = getClass().getClassLoader().getResourceAsStream("files/otlsGps-testdata.csv");
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             CsvToBean<OtlsGpsCsvFileObjectRepresentation> csvToBean = getCsvBean(reader);
-            return csvToBean.stream().map(csvLine -> Tpv.builder()
+            return csvToBean.stream().map(csvLine -> TPVObject.builder()
                             .longitude(csvLine.getLongitude()).altitude(csvLine.getAltitude())
                             .latitudeError(csvLine.getHorizontalAccuracy() * 5)
                             .longitudeError(csvLine.getHorizontalAccuracy() * 5)
@@ -62,13 +61,13 @@ public class ReadCsvFile {
         }
     }
 
-    private ENMEAMode getMode(String eNMEAMode) {
+    private de.taimos.gpsd4java.types.ENMEAMode getMode(String eNMEAMode) {
         if (eNMEAMode == "GNSS_FIX_NOT_AVAILABLE") {
-            return ENMEAMode.NoFix;
+            return de.taimos.gpsd4java.types.ENMEAMode.NoFix;
         } else if (eNMEAMode == "GNSS_FIX_VALID") {
-            return ENMEAMode.TwoDimensional;
+            return de.taimos.gpsd4java.types.ENMEAMode.TwoDimensional;
         } else {
-            return ENMEAMode.ThreeDimensional;
+            return de.taimos.gpsd4java.types.ENMEAMode.ThreeDimensional;
         }
     }
 

@@ -2,7 +2,7 @@ package org.akros;
 
 import com.google.gson.Gson;
 import org.akros.model.Sky;
-import org.akros.model.Tpv;
+import org.akros.model.TPVObject;
 import org.akros.services.ReadCsvFile;
 
 import java.io.*;
@@ -26,9 +26,9 @@ public class Main {
 
             ReadCsvFile readCsvFile = new ReadCsvFile();
             List<Sky>  sykList = readCsvFile.transformCsvFileRepresenationToSky();
-            List<Tpv> tpvList = readCsvFile.transformCsvFileRepresenationToTpvObjekt();
+            List<TPVObject> tpvList = readCsvFile.transformCsvFileRepresenationToTpvObjekt();
 
-            for(Sky sky : sykList) {
+    /*        for(Sky sky : sykList) {
                 double currentTimeStamp = Calendar.getInstance().get(Calendar.MILLISECOND);
                 sky.setTimestamp(currentTimeStamp);
                 String jsonArray = gson.toJson(sky);
@@ -38,8 +38,8 @@ public class Main {
                 outputStream.flush();
                 Thread.sleep(500);
             }
-
-            for(Tpv tpv : tpvList) {
+*/
+            for(TPVObject tpv : tpvList) {
                 double currentTimeStamp = Calendar.getInstance().get(Calendar.MILLISECOND);
                 tpv.setTimestamp(currentTimeStamp);
                 String jsonArray = gson.toJson(tpv);
